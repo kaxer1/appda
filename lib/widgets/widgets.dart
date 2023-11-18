@@ -1,0 +1,10 @@
+export 'package:appda/widgets/btneliminareditar.dart';
+export 'package:appda/widgets/item.dart';
+export 'package:appda/widgets/card_container.dart';
+export 'package:appda/widgets/boton_primario.dart';
+export 'package:appda/widgets/input_texto.dart';
+export 'package:appda/widgets/card_metas.dart';
+export 'package:appda/widgets/card_table.dart';
+export 'package:appda/widgets/page_title.dart';
+export 'package:appda/widgets/background.dart';
+export 'package:appda/widgets/input_validaciones.dart';
