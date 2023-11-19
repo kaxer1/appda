@@ -14,7 +14,7 @@ class SplashPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Image(image: AssetImage('assets/logo.png')),
+            const Image(image: AssetImage('assets/logo.jpeg')),
             const SizedBox(height: 20),
             Center(
               child: CircularProgressIndicator( 
@@ -22,7 +22,7 @@ class SplashPage extends StatelessWidget {
                 color: Get.theme.scaffoldBackgroundColor,
               ),
             ),
-          ],
+          ],  
         ),
       ),
     );

@@ -21,11 +21,11 @@ class ItemsPersonalizado extends StatelessWidget {
       return _CardBackground( 
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             CircleAvatar(
               backgroundColor: color,
-              radius: 20,
+              radius: 15,
               child: icon == null 
                 ? Text(numeros, style: const TextStyle( color: Colors.white, fontSize: 20 ))
                 : Icon( icon, size: 25, color: Colors.white, ),

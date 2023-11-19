@@ -66,4 +66,17 @@ class ValidacionesInputs {
       ? null 
       : 'Número de celular no valido';
   }
+
+  // aun falta por pulir la validacion de cedula correcta
+  static validaCantidadNumeros( String value, int cantidad ) {
+    if (value.isEmpty) return;
+    if (value.length < cantidad) {
+      return 'Numero de caracteres insuficiente';
+    }
+    String pattern = r'^[a-zA-Z0-9 ]+$';
+    RegExp regExp  = RegExp(pattern);
+    return regExp.hasMatch(value) 
+      ? null 
+      : 'Caracter no valido';
+  }
 }

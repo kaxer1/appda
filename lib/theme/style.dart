@@ -50,5 +50,6 @@ const Color dosLinearGradient = Color(0xff01579B);
 const Color colorInputDecorations = Color(0xff0277BD);
 
 const Color colorSnackbarError = Color(0xffFF5252);
+const Color colorSnackbarSuccess = Color(0xff0BEE19);
 
 const Color colorCardTraslucido = Color.fromARGB(181, 227, 225, 225);

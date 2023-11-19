@@ -1,6 +1,7 @@
 import 'package:appda/routes/export_pages.dart';
-import 'package:appda/screens/scroll_design.dart';
-import 'package:appda/services/scan_list_controller.dart';
+import 'package:appda/pages/catalogos/catalogos_page.dart';
+import 'package:appda/pages/catalogos/catalogo_controller.dart';
+import 'package:appda/pages/catalogos/catalogo_detalle_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -9,7 +10,8 @@ class Navegacion extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
-    Get.put(ScanListController());
+    Get.put(CatalogoController());
+    Get.put(CatalogoDetalleController());
     return GetBuilder<NavegacionController>(
       builder: (navegacion) => Obx(
         () => Scaffold(
@@ -37,7 +39,7 @@ class NavegacionController extends GetxController {
   final List<Widget> _children = [
     const HomePage(),
     const IngresosPage(),
-    const ScrollScreen(),
+    const CatalogosPage(),
   ];
 
   final List<BottomNavigationBarItem> items = [

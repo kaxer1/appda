@@ -1,4 +1,4 @@
-import 'package:appda/services/scan_list_controller.dart';
+import 'package:appda/pages/catalogos/catalogo_controller.dart';
 import 'package:appda/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -24,10 +24,9 @@ class HomePage extends StatelessWidget {
 
 class _HomeBody extends StatelessWidget {
 
-
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<ScanListController>(
+    return GetBuilder<CatalogoController>(
       builder: (scanlistCtrl) => CustomScrollView(
         slivers: <Widget>[
           const SliverToBoxAdapter(
@@ -44,11 +43,11 @@ class _HomeBody extends StatelessWidget {
                 return SigleCardCuadrado(
                   numeros: '${i + 1}', 
                   color: Color((math.Random().nextDouble() * 0xFFFABC).toInt()).withOpacity(0.9),
-                  nombre: '${scanlistCtrl.scans[i].nombres.capitalize} ${scanlistCtrl.scans[i].apellidos.capitalize}',
-                  celular: scanlistCtrl.scans[i].celular
+                  nombre: '${scanlistCtrl.lcatalogos[i].nombre.capitalize}',
+                  celular: ""
                 );
               },
-              childCount: scanlistCtrl.scans.length,
+              childCount: scanlistCtrl.lcatalogos.length,
             ),
           ),
           const SliverPadding(
