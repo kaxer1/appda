@@ -7,4 +7,6 @@ abstract class EntidadModel {
 
   EntidadModel fromJson(Map<String, dynamic> json);
 
+  void limpiarEntidad();
+
 }

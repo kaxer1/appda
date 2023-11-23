@@ -8,7 +8,7 @@ class AppPages {
     GetPage(
       name: AppRoutes.SPLASH,
       page: () => const SplashPage(),
-      transition: Transition.leftToRightWithFade,
+      transition: Transition.rightToLeftWithFade,
       transitionDuration: const Duration(milliseconds: 500),
       binding: BindingsBuilder(() {
         Get.lazyPut<SplashController>(() => SplashController());
@@ -34,11 +34,11 @@ class AppPages {
     ),
     GetPage(
       name: AppRoutes.METAS_REFERIDOS,
-      page: () => const IngresosPage(),
+      page: () => const IngresosGastosPage(),
       transition: Transition.fadeIn,
       transitionDuration: const Duration(milliseconds: 500),
       binding: BindingsBuilder(() {
-        Get.lazyPut<IngresosController>(() => IngresosController());
+        Get.lazyPut<IngresosGastosController>(() => IngresosGastosController());
       }),
     )
   ];

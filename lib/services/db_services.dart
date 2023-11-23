@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:appda/models/entidad.dart';
+import 'package:appda/widgets/widgets.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
@@ -40,21 +41,34 @@ class DBServices<T> {
   Future<void> _crearTablas(Database db) async {
     await db.execute('''
       CREATE TABLE catalogo(
-        ccatalogo VARCHAR(3) PRIMARY KEY,
-        nombre VARCHAR(100),
+        ccatalogo VARCHAR(3) PRIMARY KEY NOT NULL,
+        nombre VARCHAR(100) NOT NULL,
         activo INTEGER
       );      
     ''');
     await db.execute('''
       CREATE TABLE catalogodetalle(
-        ccatalogo VARCHAR(3),
-        cdetalle VARCHAR(6),
-        nombre VARCHAR(100),
+        ccatalogo VARCHAR(3) NOT NULL,
+        cdetalle VARCHAR(6) NOT NULL,
+        nombre VARCHAR(100) NOT NULL,
         activo INTEGER,
+        PRIMARY KEY (ccatalogo, cdetalle),
         FOREIGN KEY (ccatalogo) REFERENCES catalogo(ccatalogo)
       );
-      ALTER TABLE catalogodetalle ADD PRIMARY KEY (ccatalogo, cdetalle);
     ''');
+    await db.execute('''
+      CREATE TABLE saldos (
+        id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+        ccatalogo VARCHAR(3),
+        cdetalle VARCHAR(6),
+        monto real NOT NULL,
+        debito INTEGER NOT NULL,
+        saldoanterior real,
+        nombretransaccion TEXT,
+        fingreso DATETIME NOT NULL DEFAULT (datetime(CURRENT_TIMESTAMP, 'localtime'))
+      );
+    ''');
+    // debito 1 - credito 0
   }
   Future<void> _insertarDefault(Database db) async {
 
@@ -63,7 +77,10 @@ class DBServices<T> {
     ''');
     await db.execute(''' INSERT INTO catalogodetalle(ccatalogo, cdetalle, nombre, activo) values('GAS', 'COMID', 'Comida', 1)
       ,('GAS', 'TRANS', 'Transporte', 1), ('GAS', 'GYM', 'Gimnasio', 1), ('ING', 'SALA', 'Salario', 1)
-      ,('ING', 'INGADI', 'Ingresos adicionales', 1), ('ING', 'INGALQ', 'Ingresos de alquiler', 1) 
+      ,('ING', 'INGADI', 'Ingresos adicionales', 1), ('ING', 'INGALQ', 'Ingresos de alquiler', 1)
+      ,('ING', 'INISAL', 'Saldo Inicial', 0)
+    ''');
+    await db.execute(''' INSERT INTO saldos(ccatalogo, cdetalle, monto, debito, saldoanterior, nombretransaccion) values('ING', 'INISAL', 0, 0, 0, 'Saldo Inicial');
     ''');
   }
 
@@ -72,8 +89,15 @@ class DBServices<T> {
 
     // Verificar la base de datos
     final db = await database;
-    final res = await db.insert(nombreTabla, entidad.toJson() );
-    // Es el ID del último registro insertado;
+    var res = 0;
+    try {
+      // Es el ID del último registro insertado;
+      res = await db.insert(nombreTabla, entidad.toJson() );
+    } catch (e) {
+      print(e);
+      mostrarExitoSnackBar("Error al insertar Datos");
+    }
+    entidad.limpiarEntidad();
     return res;
   }
 
@@ -100,14 +124,14 @@ class DBServices<T> {
   }
 
   /// Metodo que lista los objetos de cualquier modelo
-  Future<List<T>> getListaEntidad( String nombreTabla, EntidadModel entidad, [Map<String, dynamic>? filtro] ) async {
+  Future<List<T>> getListaEntidad( String nombreTabla, EntidadModel entidad, {Map<String, dynamic>? filtro, String? orderby, int? limit} ) async {
 
     final db  = await database;
     List<Map<String, Object?>> res;
     if (filtro != null) {
-      res = await db.query(nombreTabla, where: _mapToStringKeys(filtro), whereArgs: _mapToListValues(filtro));
+      res = await db.query(nombreTabla, where: _mapToStringKeys(filtro), whereArgs: _mapToListValues(filtro), orderBy: orderby, limit: limit);
     } else {
-      res = await db.query(nombreTabla);
+      res = await db.query(nombreTabla, orderBy: orderby, limit: limit);
     }
 
     return res.isNotEmpty
@@ -120,10 +144,9 @@ class DBServices<T> {
     for (var clave in filtro.keys) {
       if (condiconal == null) {
         condiconal = '$clave = ?';
-      } else {
-        condiconal = ' and $clave = ?';
+        continue;
       }
-      print('Clave: $clave');
+      condiconal = ' $condiconal and $clave = ?';
     }
     return condiconal;
   }
@@ -132,7 +155,6 @@ class DBServices<T> {
     List<Object?> lvalores = [];
     for (var valor in filtro.values) {
       lvalores.add(valor);
-      print('Valor: $valor');
     }
     return lvalores;
   }

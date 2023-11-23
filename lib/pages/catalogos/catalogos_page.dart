@@ -96,8 +96,7 @@ class _FormCatalogo extends StatelessWidget {
                     label: "Código",
                     prefixIcon: Icons.abc,
                     maxLength: 6,
-                    // ignore: unnecessary_null_comparison
-                    onChange: (value) => cdetalleCtrl.detalle.value.cdetalle = ((value == null) ? "" : value.capitalize)!,
+                    onChange: (value) => cdetalleCtrl.detalle.value.cdetalle = value,
                     validacion: (value) => ValidacionesInputs.validaCantidadNumeros(value.toString(), 3),
                   ),
                   InputTexto(
@@ -108,10 +107,10 @@ class _FormCatalogo extends StatelessWidget {
                     onChange: (value) => cdetalleCtrl.detalle.value.nombre = value,
                     validacion: (value) => ValidacionesInputs.validaCantidadNumeros(value.toString(), 2),
                   ),
-
+                  const SizedBox(height: 20),
                   Obx( () => 
                     DropdownPersonalizado(
-                      value: catalogoCtrl.detalleSelect.value.ccatalogo, 
+                      value: catalogoCtrl.catalogoSelect.value.ccatalogo, 
                       onchange: catalogoCtrl.onSeleccionChange,
                       items: catalogoCtrl.lcatalogos.map<DropdownMenuItem<String>>((CatalogoModel model) {
                         return DropdownMenuItem<String>(
@@ -141,7 +140,7 @@ class _FormCatalogo extends StatelessWidget {
             Obx( () => 
               BotonPrimario(
                 onPressed: cdetalleCtrl.esValidoForm.value 
-                  ? () => cdetalleCtrl.guardarCatalogoDetalle(catalogoCtrl.detalleSelect.value.ccatalogo)
+                  ? () => cdetalleCtrl.guardarCatalogoDetalle(catalogoCtrl.catalogoSelect.value.ccatalogo)
                   : null,
                 label: "Guardar catálogo",
                 mt: 20,

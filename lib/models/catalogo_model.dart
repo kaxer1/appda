@@ -28,4 +28,11 @@ class CatalogoModel extends EntidadModel {
       );
     }
 
+    @override
+    void limpiarEntidad() {
+      ccatalogo = "";
+      nombre = "";
+      activo = 0;
+    }
+
 }

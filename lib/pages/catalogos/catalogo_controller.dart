@@ -6,18 +6,8 @@ import 'package:get/get.dart';
 class CatalogoController extends GetxController {
 
   List<CatalogoModel> lcatalogos = <CatalogoModel>[].obs;
-  final detalleSelect = CatalogoModel(ccatalogo: "", nombre: "...", activo: 0).obs;
+  final catalogoSelect = CatalogoModel(ccatalogo: "", nombre: "...", activo: 0).obs;
   final _defaultCatalogo = CatalogoModel(ccatalogo: "", nombre: "...", activo: 0);
-
-
-  // Future<CatalogoModel> nuevoScan( CatalogoModel nuevoScan ) async {
-
-  //   await DBServices.db.nuevoScan(nuevoScan);
-    
-  //   scans.add(nuevoScan);
-  //   update();
-  //   return nuevoScan;
-  // }
 
   @override
   void onInit() {
@@ -25,15 +15,10 @@ class CatalogoController extends GetxController {
     cargarCatalogo();
     super.onInit();
   }
-  
-  // @override
-  // void onReady() {
-  //   super.onReady();
-  // }
 
   cargarCatalogo() async {
-    final entidadResp = await DBServices.db.getListaEntidad("catalogo", CatalogoModel(activo: 0, ccatalogo: "", nombre: ""));
-    lcatalogos = [...entidadResp];
+    final listaResp = await DBServices.db.getListaEntidad("catalogo", CatalogoModel(activo: 0, ccatalogo: "", nombre: ""));
+    lcatalogos = [...listaResp];
     lcatalogos.insert(0, _defaultCatalogo);
     update();
   }
@@ -41,15 +26,8 @@ class CatalogoController extends GetxController {
   onSeleccionChange(String? valor) {
     final objeto = lcatalogos.where((o) => o.ccatalogo == valor);
     if (objeto.isEmpty) return;
-    detalleSelect.value = objeto.first;
+    catalogoSelect.value = objeto.first;
   }
-
-  // buscandoRefrido(String busqueda) {
-  //   scansReferidosParticipantes = [..._auxParticipantes];
-  //   scansReferidosParticipantes.retainWhere((scans){
-  //     return scans.toString().toLowerCase().contains(busqueda.toLowerCase());
-  //   });
-  // }
 
 }
 

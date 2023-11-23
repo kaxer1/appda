@@ -17,6 +17,7 @@ class CatalogoDetalleModel extends EntidadModel {
     @override
     Map<String, dynamic> toJson() => {
       "ccatalogo": ccatalogo,
+      "cdetalle": cdetalle,
       "nombre": nombre,
       "activo": activo,
     };
@@ -33,5 +34,13 @@ class CatalogoDetalleModel extends EntidadModel {
 
     int booleanToInt(bool? activo) => (activo == null) ? 0 : (activo == false ? 0 : 1);
     bool intToBoolean(int? activo) => (activo == null) ? false : (activo == 0 ? false : true);
+    
+    @override
+    void limpiarEntidad() {
+      ccatalogo = "";
+      cdetalle = "";
+      nombre = "";
+      activo = 0;
+    }
 
 }

@@ -16,20 +16,6 @@ class CatalogoDetalleController extends GetxController {
   RxBool esValidoForm = false.obs;
   RxBool activo = false.obs;
   final detalle = CatalogoDetalleModel(ccatalogo: "", cdetalle: "", nombre: "", activo: 0).obs;
-
-  // Future<CatalogoModel> nuevoScan( CatalogoModel nuevoScan ) async {
-
-  //   await DBServices.db.nuevoScan(nuevoScan);
-    
-  //   scans.add(nuevoScan);
-  //   update();
-  //   return nuevoScan;
-  // }
-
-  // @override
-  // void onInit() {
-  //   super.onInit();
-  // }
   
   @override
   void onReady() {
@@ -58,27 +44,29 @@ class CatalogoDetalleController extends GetxController {
 
   cargarAllGastos() async {
     Map<String, dynamic> filtro = { 'ccatalogo': 'GAS'};
-    final listaResp = await DBServices.db.getListaEntidad("catalogodetalle", CatalogoDetalleModel(activo: 0, cdetalle: "", ccatalogo: "", nombre: ""), filtro);
+    final listaResp = await DBServices.db.getListaEntidad("catalogodetalle", CatalogoDetalleModel(activo: 0, cdetalle: "", ccatalogo: "", nombre: ""), filtro: filtro);
     lgastos = [...listaResp];
     update();
   }
 
   cargarAllIngresos() async {
     Map<String, dynamic> filtro = { 'ccatalogo': 'ING'};
-    final listaResp = await DBServices.db.getListaEntidad("catalogodetalle", CatalogoDetalleModel(activo: 0, cdetalle: "", ccatalogo: "", nombre: ""), filtro);
+    final listaResp = await DBServices.db.getListaEntidad("catalogodetalle", CatalogoDetalleModel(activo: 0, cdetalle: "", ccatalogo: "", nombre: ""), filtro: filtro);
     lingresos = [...listaResp];
     update();
   }
 
-  void guardarCatalogoDetalle(String ccatalogo) async{
+  guardarCatalogoDetalle(String ccatalogo) async{
     detalle.value.ccatalogo = ccatalogo;
     // ignore: void_checks
     if (detalle.value.cdetalle == "") return mostrarExitoSnackBar("Falta seleccionar catalogo principal");
+    detalle.value.cdetalle = detalle.value.cdetalle.toUpperCase();
+    detalle.value.nombre = detalle.value.nombre.toUpperCase();
     try {
       await DBServices.db.insertarEntity("catalogodetalle", detalle.value);
       lcatalogosdetalle.add(detalle.value);
     } catch (e) {
-      mostrarExitoSnackBar("Falta seleccionar catalogo principal");
+      mostrarExitoSnackBar("Error al insertar catalogo");
     }
     
     update();

@@ -38,6 +38,8 @@ dependencies:
   get: ^4.6.5
   sqflite: 
   path_provider:
+  intl: ^0.18.0
+  pattern_formatter: ^3.0.0
 
 dev_dependencies:
   flutter_test:

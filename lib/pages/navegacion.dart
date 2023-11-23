@@ -37,19 +37,19 @@ class NavegacionController extends GetxController {
   RxInt menuIndex = 0.obs;
 
   final List<Widget> _children = [
+    const IngresosGastosPage(),
     const HomePage(),
-    const IngresosPage(),
     const CatalogosPage(),
   ];
 
   final List<BottomNavigationBarItem> items = [
     const BottomNavigationBarItem(
-      icon: Icon( Icons.supervised_user_circle_outlined ),
-      label: 'Referidos'
+      icon: Icon( Icons.monetization_on ),
+      label: 'Ingresos / Gastos'
     ),
     const BottomNavigationBarItem(
       icon: Icon( Icons.trending_up_outlined ),
-      label: 'Metas'
+      label: 'Estadisticas'
     ),
     const BottomNavigationBarItem(
       icon: Icon( Icons.description ),
